@@ -30,10 +30,10 @@ export function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
-            <Link href="/gravatas" className="text-gold hover:text-gold-light transition-colors text-sm font-medium tracking-wide">
+            <Link href="/#gravatas" className="text-gold hover:text-gold-light transition-colors text-sm font-medium tracking-wide">
               Gravatas
             </Link>
-            <Link href="/camisas" className="text-gold hover:text-gold-light transition-colors text-sm font-medium tracking-wide">
+            <Link href="/#camisas" className="text-gold hover:text-gold-light transition-colors text-sm font-medium tracking-wide">
               Camisas
             </Link>
             <Link href="/#kits" className="text-gold hover:text-gold-light transition-colors text-sm font-medium tracking-wide">
@@ -101,14 +101,14 @@ export function Header() {
           <div className="md:hidden py-4 border-t border-gold/20">
             <nav className="flex flex-col gap-4">
               <Link 
-                href="/gravatas" 
+                href="/#gravatas" 
                 className="text-gold hover:text-gold-light transition-colors text-sm font-medium tracking-wide py-2"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Gravatas
               </Link>
               <Link 
-                href="/camisas" 
+                href="/#camisas" 
                 className="text-gold hover:text-gold-light transition-colors text-sm font-medium tracking-wide py-2"
                 onClick={() => setIsMenuOpen(false)}
               >
