@@ -2,14 +2,16 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { Menu, X, Instagram } from "lucide-react"
+import { Menu, X, Instagram, ShoppingBag } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useCart } from "@/lib/cart-context"
 
 const WHATSAPP_NUMBER = "5511972547572"
 const WHATSAPP_MESSAGE = "Olá! Gostaria de saber mais sobre os produtos da Marchiori Elegance."
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { totalItems } = useCart()
 
   const whatsappLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`
 
@@ -28,16 +30,16 @@ export function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
-            <Link href="#gravatas" className="text-gold hover:text-gold-light transition-colors text-sm font-medium tracking-wide">
+            <Link href="/#gravatas" className="text-gold hover:text-gold-light transition-colors text-sm font-medium tracking-wide">
               Gravatas
             </Link>
-            <Link href="#camisas" className="text-gold hover:text-gold-light transition-colors text-sm font-medium tracking-wide">
+            <Link href="/#camisas" className="text-gold hover:text-gold-light transition-colors text-sm font-medium tracking-wide">
               Camisas
             </Link>
-            <Link href="#kits" className="text-gold hover:text-gold-light transition-colors text-sm font-medium tracking-wide">
+            <Link href="/#kits" className="text-gold hover:text-gold-light transition-colors text-sm font-medium tracking-wide">
               Kits Especiais
             </Link>
-            <Link href="#sobre" className="text-gold hover:text-gold-light transition-colors text-sm font-medium tracking-wide">
+            <Link href="/#sobre" className="text-gold hover:text-gold-light transition-colors text-sm font-medium tracking-wide">
               Sobre
             </Link>
           </nav>
@@ -51,6 +53,17 @@ export function Header() {
             >
               <Instagram className="w-5 h-5" />
             </Link>
+            <Link 
+              href="/carrinho"
+              className="text-gold hover:text-gold-light transition-colors relative"
+            >
+              <ShoppingBag className="w-5 h-5" />
+              {totalItems > 0 && (
+                <span className="absolute -top-2 -right-2 bg-gold text-primary text-xs w-5 h-5 rounded-full flex items-center justify-center font-medium">
+                  {totalItems > 9 ? "9+" : totalItems}
+                </span>
+              )}
+            </Link>
             <Button 
               asChild
               className="bg-gold text-primary hover:bg-gold-light font-medium"
@@ -61,13 +74,26 @@ export function Header() {
             </Button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button 
-            className="md:hidden text-gold p-2"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          {/* Mobile Actions */}
+          <div className="flex md:hidden items-center gap-3">
+            <Link 
+              href="/carrinho"
+              className="text-gold hover:text-gold-light transition-colors relative p-2"
+            >
+              <ShoppingBag className="w-5 h-5" />
+              {totalItems > 0 && (
+                <span className="absolute top-0 right-0 bg-gold text-primary text-xs w-5 h-5 rounded-full flex items-center justify-center font-medium">
+                  {totalItems > 9 ? "9+" : totalItems}
+                </span>
+              )}
+            </Link>
+            <button 
+              className="text-gold p-2"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Menu */}
@@ -75,28 +101,28 @@ export function Header() {
           <div className="md:hidden py-4 border-t border-gold/20">
             <nav className="flex flex-col gap-4">
               <Link 
-                href="#gravatas" 
+                href="/#gravatas" 
                 className="text-gold hover:text-gold-light transition-colors text-sm font-medium tracking-wide py-2"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Gravatas
               </Link>
               <Link 
-                href="#camisas" 
+                href="/#camisas" 
                 className="text-gold hover:text-gold-light transition-colors text-sm font-medium tracking-wide py-2"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Camisas
               </Link>
               <Link 
-                href="#kits" 
+                href="/#kits" 
                 className="text-gold hover:text-gold-light transition-colors text-sm font-medium tracking-wide py-2"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Kits Especiais
               </Link>
               <Link 
-                href="#sobre" 
+                href="/#sobre" 
                 className="text-gold hover:text-gold-light transition-colors text-sm font-medium tracking-wide py-2"
                 onClick={() => setIsMenuOpen(false)}
               >
