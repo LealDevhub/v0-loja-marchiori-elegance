@@ -1,10 +1,6 @@
-"use client"
-
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { MessageCircle, Check } from "lucide-react"
-
-const WHATSAPP_NUMBER = "5511972547572"
+import { Check } from "lucide-react"
 
 const shirtFeatures = [
   { label: "Colarinho", options: ["Italiano", "Francês"] },
@@ -15,9 +11,6 @@ const shirtFeatures = [
 ]
 
 export function ShirtsSection() {
-  const whatsappMessage = "Olá! Gostaria de encomendar uma camisa social da Marchiori Elegance."
-  const whatsappLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`
-
   return (
     <section id="camisas" className="py-20 lg:py-32 bg-primary">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -52,16 +45,17 @@ export function ShirtsSection() {
               ))}
             </div>
 
-            <Button 
-              asChild
-              size="lg"
-              className="bg-gold text-primary hover:bg-gold-light font-medium"
-            >
-              <Link href={whatsappLink} target="_blank">
-                <MessageCircle className="w-5 h-5 mr-2" />
-                Encomendar Camisa
-              </Link>
-            </Button>
+            <Link href="/camisas">
+              <Button 
+                size="lg"
+                className="bg-gold text-primary hover:bg-gold-light font-medium"
+              >
+                Ver Camisas Disponíveis
+                <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </Button>
+            </Link>
           </div>
 
           {/* Visual */}
@@ -73,9 +67,9 @@ export function ShirtsSection() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                   </svg>
                 </div>
-                <h3 className="font-serif text-2xl text-gold mb-3">Atendimento Personalizado</h3>
+                <h3 className="font-serif text-2xl text-gold mb-3">Múltiplas Opções</h3>
                 <p className="text-gold/60 text-sm">
-                  Entre em contato para escolher o modelo ideal para sua necessidade
+                  Escolha o tipo de colarinho e punho ideal para sua necessidade
                 </p>
               </div>
             </div>
@@ -100,3 +94,5 @@ export function ShirtsSection() {
     </section>
   )
 }
+
+export default ShirtsSection
