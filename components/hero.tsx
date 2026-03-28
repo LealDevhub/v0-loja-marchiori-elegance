@@ -68,6 +68,8 @@ export function Hero() {
                   <img 
                     src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_2343-UPsWvsTbwwihs8FpErODzGIh9wm0RB.jpg"
                     alt="Gravata Azul Royal"
+                    loading="eager"
+                    fetchPriority="high"
                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                   />
                 </div>

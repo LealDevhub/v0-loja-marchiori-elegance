@@ -5,7 +5,7 @@ import { Instagram, MessageCircle, MapPin, Phone } from "lucide-react"
 
 const WHATSAPP_NUMBER = "5511972547572"
 
-export function Footer() {
+export default function Footer() {
   return (
     <footer className="bg-primary border-t border-gold/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">

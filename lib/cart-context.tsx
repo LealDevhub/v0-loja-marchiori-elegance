@@ -29,9 +29,17 @@ function getItemKey(item: CartItem): string {
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([])
   const [isHydrated, setIsHydrated] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
+
+  // Set mounted state
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   // Load cart from localStorage on mount
   useEffect(() => {
+    if (!isMounted) return
+    
     const stored = localStorage.getItem(CART_STORAGE_KEY)
     if (stored) {
       try {
@@ -41,7 +49,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       }
     }
     setIsHydrated(true)
-  }, [])
+  }, [isMounted])
 
   // Save cart to localStorage on changes
   useEffect(() => {

@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { Tie, formatPrice, getCategoryLabel } from '@/lib/products'
 import Link from 'next/link'
 import Image from 'next/image'
-import Header from '@/components/header'
+import { Header } from '@/components/header'
 import Footer from '@/components/footer'
 import WhatsAppFloat from '@/components/whatsapp-float'
 

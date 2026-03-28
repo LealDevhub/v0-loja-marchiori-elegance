@@ -6,7 +6,7 @@ import { MessageCircle } from "lucide-react"
 const WHATSAPP_NUMBER = "5511972547572"
 const WHATSAPP_MESSAGE = "Olá! Gostaria de saber mais sobre os produtos da Marchiori Elegance."
 
-export function WhatsAppFloat() {
+export default function WhatsAppFloat() {
   const whatsappLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`
 
   return (
