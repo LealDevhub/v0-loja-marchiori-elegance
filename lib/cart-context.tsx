@@ -1,20 +1,16 @@
 "use client"
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react"
-import type { Product } from "./products"
-
-export type CartItem = {
-  product: Product
-  quantity: number
-}
+import type { CartItem } from "./types"
 
 type CartContextType = {
   items: CartItem[]
-  addItem: (product: Product, quantity?: number) => void
-  removeItem: (productId: string) => void
-  updateQuantity: (productId: string, quantity: number) => void
+  addItem: (item: CartItem) => void
+  removeItem: (id: string, cuffType?: string) => void
+  updateQuantity: (id: string, quantity: number, cuffType?: string) => void
   clearCart: () => void
   totalItems: number
+  totalPrice: number
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined)
@@ -45,34 +41,44 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, [items, isHydrated])
 
-  const addItem = (product: Product, quantity = 1) => {
+  const addItem = (newItem: CartItem) => {
     setItems(prev => {
-      const existing = prev.find(item => item.product.id === product.id)
-      if (existing) {
-        return prev.map(item =>
-          item.product.id === product.id
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
-        )
+      // For shirts, check both id and cuff_type
+      const existingIndex = prev.findIndex(item => 
+        item.id === newItem.id && 
+        (item.type === 'tie' || item.cuff_type === newItem.cuff_type)
+      )
+      
+      if (existingIndex >= 0) {
+        const updated = [...prev]
+        updated[existingIndex].quantity += newItem.quantity
+        return updated
       }
-      return [...prev, { product, quantity }]
+      
+      return [...prev, newItem]
     })
   }
 
-  const removeItem = (productId: string) => {
-    setItems(prev => prev.filter(item => item.product.id !== productId))
+  const removeItem = (id: string, cuffType?: string) => {
+    setItems(prev => prev.filter(item => {
+      if (item.id !== id) return true
+      if (cuffType && item.cuff_type !== cuffType) return true
+      return false
+    }))
   }
 
-  const updateQuantity = (productId: string, quantity: number) => {
+  const updateQuantity = (id: string, quantity: number, cuffType?: string) => {
     if (quantity <= 0) {
-      removeItem(productId)
+      removeItem(id, cuffType)
       return
     }
-    setItems(prev =>
-      prev.map(item =>
-        item.product.id === productId ? { ...item, quantity } : item
-      )
-    )
+    
+    setItems(prev => prev.map(item => {
+      if (item.id === id && (!cuffType || item.cuff_type === cuffType)) {
+        return { ...item, quantity }
+      }
+      return item
+    }))
   }
 
   const clearCart = () => {
@@ -80,10 +86,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }
 
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0)
+  const totalPrice = items.reduce((sum, item) => sum + (item.price * item.quantity), 0)
 
   return (
     <CartContext.Provider
-      value={{ items, addItem, removeItem, updateQuantity, clearCart, totalItems }}
+      value={{ items, addItem, removeItem, updateQuantity, clearCart, totalItems, totalPrice }}
     >
       {children}
     </CartContext.Provider>
