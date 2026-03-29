@@ -1,6 +1,6 @@
+import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
 
 // Imagens estáticas para apresentação na home - apenas showcase, sem ação de compra
 const tieCategories = [
@@ -12,7 +12,7 @@ const tieCategories = [
       "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_2347-KOXC1T0fEEvThkZlHKhckMrnGIYA7F.jpg",
       "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_2346-tbXE1oPPwWAafnP5ZtsrEWE3Q5lKPm.jpg",
     ],
-    colors: ["Azul Royal", "Bordô", "Vermelho", "Preto", "Cinza", "Verde"]
+    colors: ["Azul Royal", "Bordô", "Vermelho", "Preto", "Cinza", "Verde", "Amarelo"]
   },
   {
     category: "Gravatas Desenhadas",
