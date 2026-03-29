@@ -12,7 +12,7 @@ const tieCategories = [
       "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_2347-KOXC1T0fEEvThkZlHKhckMrnGIYA7F.jpg",
       "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_2346-tbXE1oPPwWAafnP5ZtsrEWE3Q5lKPm.jpg",
     ],
-    colors: ["Azul Royal", "Bordô", "Vermelho", "Preto", "Cinza", "Verde", "Amarelo", "Roxo"]
+    colors: ["Azul Royal", "Bordô", "Vermelho", "Preto", "Cinza", "Verde", "Amarelo", "Roxo", "Laranja"]
   },
   {
     category: "Gravatas Desenhadas",
