@@ -19,12 +19,8 @@ export const metadata: Metadata = {
   description: 'Gravatas e camisas sociais de alta qualidade para congregações cristãs, casamentos e eventos sociais. Kits especiais para padrinhos e datas comemorativas.',
   generator: 'v0.app',
   icons: {
-    icon: [
-      {
-        url: 'https://instagram.fcgh19-1.fna.fbcdn.net/v/t51.82787-19/561960331_17842352019599119_4075527416018453761_n.jpg?',
-      }
-    ],
-    apple: '/apple-icon.png',
+    icon: '/icon.svg',
+    apple: '/apple-icon.svg',
   },
 }
 
