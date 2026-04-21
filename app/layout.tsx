@@ -19,8 +19,14 @@ export const metadata: Metadata = {
   description: 'Gravatas e camisas sociais de alta qualidade para congregações cristãs, casamentos e eventos sociais. Kits especiais para padrinhos e datas comemorativas.',
   generator: 'v0.app',
   icons: {
-    icon: '/icon.svg',
-    apple: '/apple-icon.svg',
+    icon: '/favicon.png',
+    shortcut: '/favicon.png',
+    apple: '/favicon.png',
+  },
+  openGraph: {
+    title: 'Marchiori Elegance | Gravatas e Camisas Sociais',
+    description: 'Gravatas e camisas sociais de alta qualidade para congregações cristãs, casamentos e eventos sociais.',
+    images: ['/favicon.png'],
   },
 }
 
