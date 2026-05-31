@@ -1,13 +1,12 @@
 "use client"
 
 import { useEffect, useState } from 'react'
-import { createClient } from '@/lib/supabase/client'
-import { Tie } from '@/lib/products'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
+import { createTie, updateTie, getTie } from '../../actions'
 
 export default function TieFormPage() {
   const params = useParams()
@@ -34,23 +33,18 @@ export default function TieFormPage() {
   }, [params.id, isNew])
 
   const fetchTie = async () => {
-    const supabase = createClient()
-    const { data } = await supabase
-      .from('ties')
-      .select('*')
-      .eq('id', params.id)
-      .single()
+    const result = await getTie(params.id as string)
     
-    if (data) {
+    if (result.data) {
       setFormData({
-        title: data.title,
-        description: data.description || '',
-        image_url: data.image_url || '',
-        price: data.price.toString(),
-        stock: data.stock.toString(),
-        category: data.category,
-        color: data.color || '',
-        active: data.active
+        title: result.data.title,
+        description: result.data.description || '',
+        image_url: result.data.image_url || '',
+        price: result.data.price.toString(),
+        stock: result.data.stock.toString(),
+        category: result.data.category,
+        color: result.data.color || '',
+        active: result.data.active
       })
     }
     setLoading(false)
@@ -60,35 +54,27 @@ export default function TieFormPage() {
     e.preventDefault()
     setSaving(true)
 
-    const supabase = createClient()
-    
     const tieData = {
       title: formData.title,
-      description: formData.description || null,
-      image_url: formData.image_url || null,
+      description: formData.description || undefined,
+      image_url: formData.image_url || undefined,
       price: parseFloat(formData.price),
       stock: parseInt(formData.stock),
       category: formData.category,
-      color: formData.color || null,
+      color: formData.color || undefined,
       active: formData.active,
-      updated_at: new Date().toISOString()
     }
 
-    let error = null
+    let result
 
     if (isNew) {
-      const result = await supabase.from('ties').insert(tieData)
-      error = result.error
-      console.log("[v0] Insert result:", result)
+      result = await createTie(tieData)
     } else {
-      const result = await supabase.from('ties').update(tieData).eq('id', params.id)
-      error = result.error
-      console.log("[v0] Update result:", result)
+      result = await updateTie(params.id as string, tieData)
     }
 
-    if (error) {
-      console.error("[v0] Supabase error:", error)
-      alert(`Erro ao salvar: ${error.message}`)
+    if (result.error) {
+      alert(`Erro ao salvar: ${result.error}`)
       setSaving(false)
       return
     }

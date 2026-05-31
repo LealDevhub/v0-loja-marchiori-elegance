@@ -1,13 +1,12 @@
 "use client"
 
 import { useEffect, useState } from 'react'
-import { createClient } from '@/lib/supabase/client'
-import { Shirt } from '@/lib/products'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
+import { createShirt, updateShirt, getShirt } from '../../actions'
 
 export default function ShirtFormPage() {
   const params = useParams()
@@ -36,25 +35,20 @@ export default function ShirtFormPage() {
   }, [params.id, isNew])
 
   const fetchShirt = async () => {
-    const supabase = createClient()
-    const { data } = await supabase
-      .from('shirts')
-      .select('*')
-      .eq('id', params.id)
-      .single()
+    const result = await getShirt(params.id as string)
     
-    if (data) {
+    if (result.data) {
       setFormData({
-        title: data.title,
-        description: data.description || '',
-        image_url: data.image_url || '',
-        collar_type: data.collar_type,
-        color: data.color,
-        simple_cuff_price: data.simple_cuff_price.toString(),
-        simple_cuff_stock: data.simple_cuff_stock.toString(),
-        double_cuff_price: data.double_cuff_price.toString(),
-        double_cuff_stock: data.double_cuff_stock.toString(),
-        active: data.active
+        title: result.data.title,
+        description: result.data.description || '',
+        image_url: result.data.image_url || '',
+        collar_type: result.data.collar_type,
+        color: result.data.color,
+        simple_cuff_price: result.data.simple_cuff_price.toString(),
+        simple_cuff_stock: result.data.simple_cuff_stock.toString(),
+        double_cuff_price: result.data.double_cuff_price.toString(),
+        double_cuff_stock: result.data.double_cuff_stock.toString(),
+        active: result.data.active
       })
     }
     setLoading(false)
@@ -64,12 +58,10 @@ export default function ShirtFormPage() {
     e.preventDefault()
     setSaving(true)
 
-    const supabase = createClient()
-    
     const shirtData = {
       title: formData.title,
-      description: formData.description || null,
-      image_url: formData.image_url || null,
+      description: formData.description || undefined,
+      image_url: formData.image_url || undefined,
       collar_type: formData.collar_type,
       color: formData.color,
       simple_cuff_price: parseFloat(formData.simple_cuff_price),
@@ -77,24 +69,18 @@ export default function ShirtFormPage() {
       double_cuff_price: parseFloat(formData.double_cuff_price),
       double_cuff_stock: parseInt(formData.double_cuff_stock),
       active: formData.active,
-      updated_at: new Date().toISOString()
     }
 
-    let error = null
+    let result
 
     if (isNew) {
-      const result = await supabase.from('shirts').insert(shirtData)
-      error = result.error
-      console.log("[v0] Insert result:", result)
+      result = await createShirt(shirtData)
     } else {
-      const result = await supabase.from('shirts').update(shirtData).eq('id', params.id)
-      error = result.error
-      console.log("[v0] Update result:", result)
+      result = await updateShirt(params.id as string, shirtData)
     }
 
-    if (error) {
-      console.error("[v0] Supabase error:", error)
-      alert(`Erro ao salvar: ${error.message}`)
+    if (result.error) {
+      alert(`Erro ao salvar: ${result.error}`)
       setSaving(false)
       return
     }
