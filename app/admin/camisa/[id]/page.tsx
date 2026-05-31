@@ -80,10 +80,23 @@ export default function ShirtFormPage() {
       updated_at: new Date().toISOString()
     }
 
+    let error = null
+
     if (isNew) {
-      await supabase.from('shirts').insert(shirtData)
+      const result = await supabase.from('shirts').insert(shirtData)
+      error = result.error
+      console.log("[v0] Insert result:", result)
     } else {
-      await supabase.from('shirts').update(shirtData).eq('id', params.id)
+      const result = await supabase.from('shirts').update(shirtData).eq('id', params.id)
+      error = result.error
+      console.log("[v0] Update result:", result)
+    }
+
+    if (error) {
+      console.error("[v0] Supabase error:", error)
+      alert(`Erro ao salvar: ${error.message}`)
+      setSaving(false)
+      return
     }
 
     router.push('/admin')
